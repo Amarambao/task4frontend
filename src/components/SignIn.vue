@@ -25,6 +25,7 @@ async function signIn() {
       await router.push('/users')
     }
   } catch (error) {
+    alert("Login failure");
     console.error('Login error:', error);
   }
 }

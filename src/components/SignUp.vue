@@ -26,6 +26,7 @@ async function signUp() {
       await router.push('/users')
     }
   } catch (error) {
+    alert("Registration failure");
     console.error('Registration error:', error);
   }
 }

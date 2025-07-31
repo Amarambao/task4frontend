@@ -80,6 +80,7 @@ async function loadUsers() {
       users.value = response.data;
     }
   } catch (error) {
+    alert("Users loading error");
     console.error('Users loading error:', error);
     jwtStore.clearToken();
     await router.push('/');
@@ -95,6 +96,7 @@ async function changeUsersStatus(requestedStatus: boolean) {
 
     dto.value.userIds = [];
   } catch (error) {
+    alert("Users changing status error");
     console.error('Users changing status error:', error);
     jwtStore.clearToken();
     await router.push('/');
@@ -111,7 +113,8 @@ async function deleteUsers() {
 
     dto.value.userIds = [];
   } catch (error) {
-    console.error('Users deletion status error:', error);
+    alert("Users deletion error");
+    console.error('Users deletion error:', error);
     jwtStore.clearToken();
     await router.push('/');
   }
