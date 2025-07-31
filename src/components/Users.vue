@@ -8,7 +8,6 @@ import {
 } from 'bootstrap-vue-next'
 import type {ChangeUsersStatusDto} from "../dto/ChangeUsersStatusDto.ts";
 import {DateFormatter} from "../services/dateFormatter.ts";
-import type {AxiosResponse} from "axios";
 import router from "../router/router.ts";
 import {useJwtStore} from "../stores/JwtStore.ts";
 
