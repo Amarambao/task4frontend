@@ -98,7 +98,6 @@ async function signUp() {
           size="lg"
           class="mt-lg-auto">
         <BButton
-            type="submit"
             variant="primary"
             @click="signUp()">
           Register

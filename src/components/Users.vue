@@ -105,8 +105,8 @@ async function changeUsersStatus(requestedStatus: boolean) {
 
 async function deleteUsers() {
   try {
-    await apiClient.delete('delete-selected', {
-      userIds: dto.value.userIds
+    await apiClient.delete('delete-selected', null, {
+      userIds: dto.value.userIds,
     });
 
     await loadUsers();
