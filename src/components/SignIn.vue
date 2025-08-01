@@ -14,8 +14,6 @@ const dto = ref<LoginDto>({
   password: '',
 })
 
-
-
 async function signIn() {
   try {
     const response = await apiClient.post<string>('sign-in', dto.value);

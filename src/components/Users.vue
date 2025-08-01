@@ -4,7 +4,7 @@ import {computed, onMounted, ref} from "vue";
 import {apiClient} from "../services/apiClient.ts";
 import {
   BButton, BButtonGroup, BFormCheckbox, BFormInput,
-  BTable, type BTableSortBy, type TableFieldRaw
+  BTable, type BTableSortBy, type CheckboxValue, type TableFieldRaw
 } from 'bootstrap-vue-next'
 import type {ChangeUsersStatusDto} from "../dto/ChangeUsersStatusDto.ts";
 import {DateFormatter} from "../services/dateFormatter.ts";
@@ -26,8 +26,6 @@ const fields: TableFieldRaw<AppUserGetDto>[] = [
   {
     key: 'selected',
     label: 'Select',
-    sortable: true,
-    tdClass: 'text-center'
   },
   {
     key: 'isBlocked',
@@ -59,6 +57,8 @@ const filteredUsers = computed(() => {
   const search = searchValue.value.toLowerCase();
   return users.value.filter((z) => z.name.toLowerCase().includes(search) || z.email.toLowerCase().includes(search) || z.userName.toLowerCase().includes(search));
 });
+const allSelected = ref(false);
+const asIndeterminate = ref(false);
 
 function isSelected(id: string) {
   return dto.value.userIds.includes(id)
@@ -119,6 +119,10 @@ async function deleteUsers() {
     await router.push('/');
   }
 }
+
+const toggleAll = (checked?: CheckboxValue | CheckboxValue[]) => {
+  dto.value.userIds = checked ? users.value.map(user => user.id).slice() : []
+}
 </script>
 
 <template>
@@ -130,8 +134,10 @@ async function deleteUsers() {
             class="mt-lg-auto">
           <BButton
               variant="outline-primary"
+              class="d-inline-flex align-items-center"
               @click="changeUsersStatus(true)">
             <i class="bi bi-lock-fill"></i>
+            Block
           </BButton>
           <BButton
               variant="outline-primary"
@@ -155,9 +161,19 @@ async function deleteUsers() {
     <BTable
         v-model:sort-by="multiSortBy"
         hover
-        sticky-header="18%"
+        sticky-header="17.8%"
         :items="filteredUsers"
         :fields="fields">
+      <template #head(selected)>
+        <BFormCheckbox
+            v-model="allSelected"
+            v-model:indeterminate="asIndeterminate"
+            aria-describedby="users"
+            aria-controls="users"
+            @update:model-value="toggleAll">
+          {{ allSelected ? 'Unselect All' : 'Select All' }}
+        </BFormCheckbox>
+      </template>
       <template #cell(selected)="row">
         <BFormCheckbox
             :checked="isSelected(row.item.id)"
